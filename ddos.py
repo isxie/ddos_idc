@@ -67,7 +67,7 @@ def ddos_sub():
 	target_all = open(target_dir,'r')
 	for line in target_all:
 		getip = GetIp(line)
-		p = multiprocessing.Pool(len(getip.att_data))
+		p = multiprocessing.Pool(processes=len(getip.att_data))
 		for x in getip.att_data:
 			p.apply_async(ddos_1, args=(x,))
 		if switch_time != 0:
